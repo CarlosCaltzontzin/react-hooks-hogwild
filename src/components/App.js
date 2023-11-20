@@ -1,11 +1,74 @@
 import React, { useState } from "react";
 import Nav from "./Nav";
+import HogList from "./HogList";
+import Filters from "./Filters";
+import hogData from "../porkers_data";
+
+function App() {
+  const [greasedFilter, setGreasedFilter] = useState(false);
+  const [sortCriteria, setSortCriteria] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
+  const [selectedHog, setSelectedHog] = useState(null);
+
+  const handleHogClick = (hog) => {
+    setSelectedHog(hog);
+  };
+
+  const handleGreasedFilterChange = () => {
+    setGreasedFilter(!greasedFilter);
+    setSelectedHog(null); // Reset selectedHog when the filter changes
+  };
+
+  const handleSortChange = (criteria) => {
+    setSortCriteria(criteria);
+    setSortOrder(criteria === "name" ? "asc" : "desc"); // Set ascending order for "Sort by Name"
+    setSelectedHog(null); // Reset selectedHog when the sort changes
+  };
+
+  const filteredHogs = greasedFilter ? hogData.filter((hog) => hog.greased) : hogData;
+
+  const sortedHogs = () => {
+    if (sortCriteria === "name") {
+      return filteredHogs.slice().sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortCriteria === "weight") {
+      return filteredHogs.slice().sort((a, b) => (sortOrder === "asc" ? a.weight - b.weight : b.weight - a.weight));
+    } else {
+      return filteredHogs;
+    }
+  };
+
+  return (
+    <div className="App ui grid container">
+      <div className="indexWrapper row">
+        <div className="ui center aligned column">
+          <Nav />
+          <Filters
+            greasedFilter={greasedFilter}
+            sortCriteria={sortCriteria}
+            handleGreasedFilterChange={handleGreasedFilterChange}
+            handleSortChange={handleSortChange}
+          />
+        </div>
+      </div>
+      <div className="indexWrapper row ui padded">
+        <HogList hogs={sortedHogs()} handleHogClick={handleHogClick} selectedHog={selectedHog} />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+/*
+
+import React, { useState } from "react";
+import Nav from "./Nav";
 import hogs from "../porkers_data";
 
 function App() {
   const [greasedFilter, setGreasedFilter] = useState(false);
   const [sortCriteria, setSortCriteria] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
   const [selectedHog, setSelectedHog] = useState(null);
 
   const handleHogClick = (hog) => {
@@ -76,5 +139,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+*/
