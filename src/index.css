@@ -73,11 +73,9 @@ ul {
   font-size: .75em;
 }
 
-
 .indexWrapper {
   margin: auto;
 }
-
 
 .pigTile {
   display: inline;
@@ -113,8 +111,8 @@ ul {
 }
 
 .minPigTile {
-  width: 250px;
-  height: 250px;
+  width: 280px;
+  height: 280px;
   background-size: cover;
 }
 
@@ -127,7 +125,6 @@ ul {
 .pigTile:hover {
   transform: scale(1.05);
 }
-
 
 .App-logo {
   animation: App-logo-spin infinite 5s linear;
